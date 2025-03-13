@@ -1,0 +1,38 @@
+### Test Create User
+POST http://localhost:8080/api/user
+Content-Type: application/json
+
+{
+  "name": "Doe, John",
+  "birthday": "01.01.2000",
+  "email": "john.doe123@example.com"
+}
+
+###
+
+### Test Update User
+PUT http://localhost:8080/api/user/1
+Content-Type: application/json
+
+{
+  "name": "John Updated",
+  "email": "john.updated@example.com"
+}
+
+###
+
+### Test Delete User
+DELETE http://localhost:8080/api/user/1
+
+###
+
+### Test Find User By ID
+GET http://localhost:8080/api/user/1
+Accept: application/json
+
+###
+
+### Test Find All User
+GET http://localhost:8080/api/user
+Accept: application/json
+
