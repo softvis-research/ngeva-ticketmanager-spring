@@ -36,3 +36,53 @@ Accept: application/json
 GET http://localhost:8080/api/user
 Accept: application/json
 
+
+##########################################
+
+### Test Create Event
+POST http://localhost:8080/api/event
+Content-Type: application/json
+
+{
+  "title": "RB Spiel",
+  "place": "Leipzig",
+  "date": "30.02.2026",
+  "quota": 200
+}
+###
+
+### Test Update Quota
+PUT http://localhost:8080/api/event/1/543
+Content-Type: application/json
+###
+
+### Test Update Event
+PUT http://localhost:8080/api/event
+Content-Type: application/json
+
+{
+  "id": 1,
+  "title": "Bayern Spiel",
+  "place": "Leipzig",
+  "date": "30.02.2026",
+  "quota": 200
+}
+###
+
+### Test Delete Event
+DELETE http://localhost:8080/api/event/5
+###
+
+### Test Delete Event
+DELETE http://localhost:8080/api/event
+###
+
+### Test Find Event By ID
+GET http://localhost:8080/api/event/3
+Accept: application/json
+###
+
+### Test Find All Events
+GET http://localhost:8080/api/event
+Accept: application/json
+
