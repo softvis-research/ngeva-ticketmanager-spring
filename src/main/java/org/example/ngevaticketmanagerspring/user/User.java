@@ -1,5 +1,7 @@
 package org.example.ngevaticketmanagerspring.user;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.OneToMany;
 import java.time.LocalDate;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,7 +15,12 @@ import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import org.example.ngevaticketmanagerspring.ticket.Ticket;
+
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,6 +35,7 @@ public class User {
         this.name = name;
         this.birthday = birthday;
         this.email = email;
+        this.tickets = new ArrayList<>();
     }
 
     @Getter
@@ -56,6 +64,12 @@ public class User {
     @NotNull(message = "Email cannot be empty")
     @Column(nullable = false, unique = true)
     private String email;
+
+    @Getter
+    @Setter
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Ticket> tickets;
 
     public void setBirthday(final LocalDate birthday) {
         if (birthday.isBefore(LocalDate.of(1900, 1, 1)) || birthday.isAfter(LocalDate.now())) {
