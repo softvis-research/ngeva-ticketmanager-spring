@@ -1,7 +1,9 @@
 package org.example.ngevaticketmanagerspring.event;
 
+import org.example.ngevaticketmanagerspring.ticket.Ticket;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -58,9 +60,31 @@ public class EventService {
         return opt.get();
     }
 
-    public List<Event> getAllEvents() {
-        return (List<Event>) repository.findAll();
+    public Boolean hasTicketsLeft(Long eventId) {
+        int quota = repository.getQuotaByEventId(eventId).orElseThrow(() -> new RuntimeException(exceptionText + eventId + "."));
+        return (quota > 0);
     }
 
+    public List<Event> getAllEvents() {
+        return repository.findAll();
+    }
 
+    @Transactional
+    public void reserveTicket(Event event) {
+        int quota = event.getQuota();
+        if (quota <= 0) {
+            throw new RuntimeException("There is no quota left for this event.");
+        }
+        event.setQuota(event.getQuota() - 1);
+        repository.save(event);
+    }
+
+    public void releaseTicket(Long eventId, Ticket ticket) {
+        Event event = findEventById(eventId);
+        List<Ticket> tickets = event.getTickets();
+        tickets.remove(ticket);
+        event.setTickets(tickets);
+        event.setQuota(event.getQuota() + 1);
+        repository.save(event);
+    }
 }

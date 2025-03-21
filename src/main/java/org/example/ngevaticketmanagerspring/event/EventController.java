@@ -64,6 +64,15 @@ public class EventController {
         }
     }
 
+    @GetMapping("/{eventId}/tickets_left")
+    public ResponseEntity<Object> hasTicketsLeft(@PathVariable Long eventId) {
+        try {
+            return ResponseEntity.ok(service.hasTicketsLeft(eventId));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: " + e.getMessage());
+        }
+    }
+
     @GetMapping
     public ResponseEntity<List<Event>> getAllEvents() {
         List<Event> AllEvents = service.getAllEvents();
