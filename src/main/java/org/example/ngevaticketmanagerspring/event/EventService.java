@@ -1,11 +1,12 @@
 package org.example.ngevaticketmanagerspring.event;
 
+import java.util.List;
+import java.util.Optional;
+import jakarta.transaction.Transactional;
+
 import org.example.ngevaticketmanagerspring.ticket.Ticket;
 import org.springframework.stereotype.Service;
 
-import jakarta.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 
 @Service
