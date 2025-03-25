@@ -1,11 +1,13 @@
 package org.example.ngevaticketmanagerspring.user;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.OneToMany;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -17,9 +19,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.example.ngevaticketmanagerspring.idgenerator.annotation.CustomIdGeneratorAnnotation;
 import org.example.ngevaticketmanagerspring.ticket.Ticket;
+import org.example.ngevaticketmanagerspring.utils.validation.DateTimeframeConstraint;
 
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -47,19 +48,21 @@ public class User {
     @Setter
     @NotNull(message = "Name cannot be empty")
     @Column(nullable = false)
-    @Pattern(regexp = "^((\\p{Lu}\\p{L}[-'\\p{L}]* \\p{Lu}\\p{L}[-'\\p{L}]*$)|(\\p{Lu}\\p{L}[-'\\p{L}]*, \\p{Lu}\\p{L}[-'\\p{L}]*$))", message = "Name must be in on of these formats: 'Firstname Lastname' oder 'Lastname, Firstname'")
+    @Pattern(regexp = "^((\\p{Lu}\\p{L}[-'\\p{L}]* \\p{Lu}\\p{L}[-'\\p{L}]*$)|(\\p{Lu}\\p{L}[-'\\p{L}]*, \\p{Lu}\\p{L}[-'\\p{L}]*$))", message = "Name must be in on of these formats: Firstname Lastname or Lastname, Firstname")
     private String name;
 
     @Getter
+    @Setter
     @NotNull(message = "Birthday cannot be empty")
     @Column(nullable = false)
     @JsonFormat(pattern = "dd.MM.yyyy")
+    @DateTimeframeConstraint()
     @Past(message = "Birthday has to be today or in the past")
     private LocalDate birthday;
 
     @Getter
     @Setter
-    @Email(message = "Email must look like this: 'stuff@whatever.xyz'")
+    @Email(message = "Email must look like this: stuff@whatever.xyz")
     @NotNull(message = "Email cannot be empty")
     @Column(nullable = false, unique = true)
     private String email;
@@ -69,11 +72,4 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Ticket> tickets;
-
-    public void setBirthday(final LocalDate birthday) {
-        if (birthday.isBefore(LocalDate.of(1900, 1, 1)) || birthday.isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException("Birthday must be in between 01.01.1900 and today");
-        }
-        this.birthday = birthday;
-    }
 }

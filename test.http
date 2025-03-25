@@ -1,6 +1,7 @@
 ########## Test for user administration ###########
 
 ### Test Create User
+# @name CreateUser
 POST http://localhost:8080/api/user
 Content-Type: application/json
 
@@ -9,9 +10,11 @@ Content-Type: application/json
   "birthday": "01.01.2000",
   "email": "john.doe@example.com"
 }
+
 ###
 
 ### Test Update User
+# @name UpdateUser
 PUT http://localhost:8080/api/user/1
 Content-Type: application/json
 
@@ -19,18 +22,24 @@ Content-Type: application/json
   "name": "John Updated",
   "email": "john.updated@example.com"
 }
+
 ###
 
 ### Test Delete User
+# @name DeleteUser
 DELETE http://localhost:8080/api/user/1
+
 ###
 
 ### Test Find User By ID
+# @name FindUserByID
 GET http://localhost:8080/api/user/1
 Accept: application/json
+
 ###
 
-### Test Find All User
+### Test Find All Users
+# @name FindAllUsers
 GET http://localhost:8080/api/user
 Accept: application/json
 
@@ -38,70 +47,104 @@ Accept: application/json
 ########## Test event administration ###########
 
 ### Test Create Event
+# @name CreateEvent
 POST http://localhost:8080/api/event
 Content-Type: application/json
 
 {
   "title": "RB Spiel",
   "place": "Leipzig",
-  "date": "01.06.2025",
-  "quota": 4
+  "date": "01.06.2026",
+  "quota": 50
 }
+
 ###
 
 ### Test Update Event
-PUT http://localhost:8080/api/event/3
+# @name UpdateEvent
+PUT http://localhost:8080/api/event/1
 Content-Type: application/json
 
 {
   "title": "Bayern Spiel",
   "place": "Leipzig",
   "date": "30.02.2026",
-  "quota": 3
+  "quota": 100
 }
+
 ###
 
 ### Test Delete Event
+# @name DeleteEvent
 DELETE http://localhost:8080/api/event/1
+
 ###
 
 ### Test Delete All Events
+# @name DeleteAllEvents
 DELETE http://localhost:8080/api/event
+
 ###
 
 ### Test Find Event By ID
+# @name FindEventByID
 GET http://localhost:8080/api/event/1
 Accept: application/json
+
 ###
 
 ### Test Find All Events
+# @name FindAllEvents
 GET http://localhost:8080/api/event
 Accept: application/json
+
 ###
 
 ### Test Has Tickets Left
+# @name HasTicketsLeft
 GET http://localhost:8080/api/event/1/tickets_left
 Accept: application/json
+
 ###
 
 
 ########## Test ticket administration ###########
 
-### Test puchase Ticket
+### Test Purchase Ticket
+# @name PurchaseTicket
 POST http://localhost:8080/api/ticket/1/1
 Content-Type: application/json
+
 ###
 
-### Test cancel Ticket
+### Test Cancel Ticket
+# @name CancelTicket
 DELETE http://localhost:8080/api/ticket/1
+
 ###
 
-### Test Find Tickets By UserId
+### Test Find Tickets By User ID
+# @name FindTicketsByUserID
 GET http://localhost:8080/api/ticket/user/1
 Accept: application/json
+
 ###
 
-### Test Find Tickets By EventId
+### Test Find Tickets By Event ID
+# @name FindTicketsByEventID
 GET http://localhost:8080/api/ticket/event/1
 Accept: application/json
+
 ###
+
+### Get Logs
+# @name GetLogs
+GET http://localhost:8080/api/logs
+Accept: application/json
+
+###
+
+### Download logs as Excel
+# @name GetExcel
+GET http://localhost:8080/api/logs/download
+Accept: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet

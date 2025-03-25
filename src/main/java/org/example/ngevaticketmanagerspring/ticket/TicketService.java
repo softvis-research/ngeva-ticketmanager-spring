@@ -1,25 +1,27 @@
 package org.example.ngevaticketmanagerspring.ticket;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+import jakarta.transaction.Transactional;
+
 import org.example.ngevaticketmanagerspring.event.Event;
 import org.example.ngevaticketmanagerspring.event.EventService;
 import org.example.ngevaticketmanagerspring.user.User;
 import org.example.ngevaticketmanagerspring.user.UserService;
 import org.springframework.stereotype.Service;
 
-import jakarta.transaction.Transactional;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class TicketService {
 
-    private final TicketRepository ticketRepository;
-
     private final EventService eventService;
+
     private final UserService userService;
+
+    private final TicketRepository ticketRepository;
 
     private final String exceptionText = "Could not find %s with ID: %d";
 
@@ -31,9 +33,9 @@ public class TicketService {
 
         int MAX_TICKETS_PER_USER_AND_EVENT = 5;
         if (ticketRepository.numberOfTicketsByEventAndUser(eventId, userId) >= MAX_TICKETS_PER_USER_AND_EVENT) {
-            throw new RuntimeException(String.format(
-                "User %d has already bought the maximum of %d tickets for event %d", userId, MAX_TICKETS_PER_USER_AND_EVENT, eventId
-            ));
+            throw new RuntimeException(
+                String.format("User %d has already bought the maximum of %d tickets for event %d", userId, MAX_TICKETS_PER_USER_AND_EVENT,
+                    eventId));
         }
 
         Ticket ticket = new Ticket(event, user, LocalDate.now());
@@ -52,8 +54,7 @@ public class TicketService {
     }
 
     public Ticket findTicketById(Long id) {
-        return ticketRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException(String.format(exceptionText, "Ticket", id)));
+        return ticketRepository.findById(id).orElseThrow(() -> new RuntimeException(String.format(exceptionText, "Ticket", id)));
     }
 
     public List<TicketsByUserDto> findTicketsByUserId(Long userId) {
