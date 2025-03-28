@@ -6,8 +6,6 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -19,6 +17,7 @@ import jakarta.validation.constraints.Pattern;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import org.example.ngevaticketmanagerspring.idgenerator.annotation.CustomIdGeneratorAnnotation;
 import org.example.ngevaticketmanagerspring.ticket.Ticket;
 import org.example.ngevaticketmanagerspring.utils.validation.DateTimeframeConstraint;
 
@@ -41,7 +40,7 @@ public class User {
 
     @Getter
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @CustomIdGeneratorAnnotation
     @Column(nullable = false, unique = true)
     private Long id;
 

@@ -3,13 +3,12 @@ package org.example.ngevaticketmanagerspring.event;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import org.example.ngevaticketmanagerspring.idgenerator.annotation.CustomIdGeneratorAnnotation;
 import org.example.ngevaticketmanagerspring.ticket.Ticket;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -42,7 +41,7 @@ public class Event {
 
     @Setter(AccessLevel.NONE)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @CustomIdGeneratorAnnotation
     @Column(nullable = false, unique = true)
     private Long id;
 
@@ -68,5 +67,4 @@ public class Event {
     @JsonIgnore
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<Ticket> tickets;
-
 }
